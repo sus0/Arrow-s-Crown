@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class attack : MonoBehaviour {
-	protected Animator animator;
+public class Attack : MonoBehaviour {
 	bool isWin; //input value from susie
 	int playerHealth = 100;
 	public string player = "player's health:";
 	int enemyHealth = 100;
 	public string enemy = "enemy's health:";
-//	bool? playerAttack = null; // output value to monster and player
 	bool moveFinish = false; // output value to susie
-
+	protected Animator animPlayer;
+	public GameObject monster;
+	protected Animator animMonster;
 
 
 
@@ -18,7 +18,9 @@ public class attack : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		animator = GetComponent<Animator> ();
+		monster = GameObject.Find ("monster");
+		animPlayer = GetComponent <Animator> ();
+		animMonster = monster.GetComponent<Animator> ();
 	}
 
 	void OnGUI() {
@@ -30,6 +32,7 @@ public class attack : MonoBehaviour {
 	void Update () {
 
 		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo (0);
+		whoAttack (isWin);
 	
 	}
 
@@ -40,6 +43,9 @@ public class attack : MonoBehaviour {
 		//	playerAttack = true;
 			if( Random.Range(0,1) == 0){
 				//player normal attack animation
+				animPlayer.Play("playerAttack");
+				enemyHealth -= 10;
+				StartCoroutine(wait (animPlayer));
 				moveFinish =true;
 			}
 			else
@@ -54,6 +60,9 @@ public class attack : MonoBehaviour {
 		//	playerAttack = false;
 			if( Random.Range(0,1) == 0){
 				//monster normal attack animation
+				animMonster.Play ("monsterAttack");
+				playerHealth -= 10;
+				StartCoroutine (wait (animMonster));
 				moveFinish = true;
 			}
 			else
@@ -62,6 +71,13 @@ public class attack : MonoBehaviour {
 				moveFinish = true; 
 			}
 		}
+	}
+
+	IEnumerator wait(Animator anim){
+		yield return new WaitForSeconds(3.0f);
+		anim.enabled = false;
+		anim.enabled = true;
+		anim.Play ("IDLE");
 	}
 }
 	
