@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\DisplayTextureFullScreen.cs" />
      <Compile Include="Assets\Scripts\GUIClasses.cs" />
+     <Compile Include="Assets\Scripts\GameStatus.cs" />
      <Compile Include="Assets\Scripts\mainGUI.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>G:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
