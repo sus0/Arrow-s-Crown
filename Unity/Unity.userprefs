@@ -1,23 +1,42 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameStatus.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\mainGUI.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameStatus.cs" Line="105" Column="24" />
-      <File FileName="Assets\Scripts\mainGUI.cs" Line="63" Column="43" />
+      <File FileName="Assets\Scripts\mainGUI.cs" Line="30" Column="16" />
+      <File FileName="Assets\Scripts\GameStatus.cs" Line="6" Column="2" />
+      <File FileName="Assets\Scripts\GUIClasses.cs" Line="11" Column="1" />
+      <File FileName="Assets\Scripts\DisplayTextureFullScreen.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="mainGUI.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>textureNames</Value>
+          <Value>tempTextures</Value>
+          <Value>textureNames.Length</Value>
+          <Value>displayNames</Value>
+          <Value>btTextures</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="G:\Projects\Arrow-s-Crown\Unity\Assets\Scripts\mainGUI.cs" line="55" />
-      <Breakpoint file="G:\Projects\Arrow-s-Crown\Unity\Assets\Scripts\mainGUI.cs" line="63" />
-      <Breakpoint file="G:\Projects\Arrow-s-Crown\Unity\Assets\Scripts\mainGUI.cs" line="79" />
-      <Breakpoint file="G:\Projects\Arrow-s-Crown\Unity\Assets\Scripts\mainGUI.cs" line="90" />
-      <Breakpoint file="G:\Projects\Arrow-s-Crown\Unity\Assets\Scripts\mainGUI.cs" line="75" />
-      <Breakpoint file="G:\Projects\Arrow-s-Crown\Unity\Assets\Scripts\mainGUI.cs" line="65" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Scripts\GameStatus.cs" line="19" offsetX="427" offsetY="324" expression="ui" liveUpdate="False" />
-    <Watch file="Assets\Scripts\GameStatus.cs" line="19" offsetX="427" offsetY="324" expression="ui" liveUpdate="False" />
+    <Watch file="Assets\Scripts\GameStatus.cs" line="19" offsetX="427" offsetY="324" expression="ui" liveUpdate="True" />
+    <Watch file="Assets\Scripts\GameStatus.cs" line="38" offsetX="533" offsetY="646" expression="ui.GetComponent&lt;mainGUI&gt;().arrayReadyToSend" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>
