@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class health: MonoBehaviour {
-	protected Animator anim;
+	protected Animator animPlayer;
+	public GameObject monster;
+	protected Animator animMonster;
 	int playerHealth = 100;
 	public string player = "player's health:";
 	int enemyHealth = 100;
@@ -11,7 +13,9 @@ public class health: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		anim = GetComponent<Animator> ();
+		monster = GameObject.Find ("monster");
+		animPlayer = GetComponent <Animator> ();
+		animMonster = monster.GetComponent<Animator> ();
 	}
 	
 	void OnGUI() {
@@ -22,17 +26,23 @@ public class health: MonoBehaviour {
 	// Update is called once per framer4
 	void Update () {
 		if (Input.GetKeyDown ("k")) {
-			anim.Play("playerAttack");
-			playerHealth -= 10;
-			StartCoroutine(wait ());
-		}
-		if (Input.GetKeyDown ("l"))
-				enemyHealth -= 10;
-
+			animPlayer.Play("playerAttack");
+			enemyHealth -= 10;
+			StartCoroutine(wait (animPlayer));
 		}
 
-	IEnumerator wait(){
-				yield return new WaitForSeconds(3.0f);
-				anim.enabled = false;
-		}
+		if (Input.GetKeyDown ("l")) {
+						animMonster.Play ("monsterAttack");
+						playerHealth -= 10;
+						StartCoroutine (wait (animMonster));
+				}
+	
+	}
+
+	IEnumerator wait(Animator anim){
+		yield return new WaitForSeconds(3.0f);
+		anim.enabled = false;
+		anim.enabled = true;
+		anim.Play ("IDLE");
+	}
 }
