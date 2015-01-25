@@ -18,6 +18,8 @@ public class mainGUI : MonoBehaviour {
 	public float attackTime = 0f;
 	public bool paused;
 	public GameObject player;
+	public Texture speechbox1;
+	public Texture speechbox2;
 
 	private int numBtns = 1;
 	private Texture[] tempTextures;
@@ -44,8 +46,13 @@ public class mainGUI : MonoBehaviour {
 	void OnGUI(){
 		// setting up the background
 		GUI.skin = backgroundSkin;
-		//aa ();
+
 		if (status.isDisplaying){
+			if (numBtns > 5){
+				GUI.DrawTexture(new Rect(center.offset.x + 300, center.offset.y + 450, 485, 159), speechbox2, ScaleMode.ScaleToFit, true, 0f);	
+			}
+				GUI.DrawTexture(new Rect(center.offset.x + 220, center.offset.y + 300, 485, 180), speechbox1, ScaleMode.ScaleToFit, true, 0f);	
+
 			for(int i = 0; i < numBtns; ++i){
 				if(GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), tempTextures[i], GUIStyle.none)){
 				}
@@ -90,8 +97,7 @@ public class mainGUI : MonoBehaviour {
 		//	StartCoroutine(OnDisplaying());
 		//}
 	}
-	private bool ready1;
-	private bool ready2;
+
 	private void GameLoopEntry(){
 		InitializeMainGUI();
 		StartCoroutine(OnDisplaying());
