@@ -5,19 +5,22 @@ using System;
 [ExecuteInEditMode]
 [RequireComponent(typeof(CharacterLogic))]
 public class mainGUI : MonoBehaviour {
-	public GUISkin backgroundSkin;
 	public Texture[] btTextures;
 	public Vector2 btStartLocation;
+	public Vector2 btStartSecond;
 	public Vector2 btPauseGameLocation;
 	public GUIClasses.Location center = new GUIClasses.Location();
-	public string[] textureNames;
 	public float displayTime =0f;
 	public float inputTime = 0f; 
 	public float attackTime = 0f;
-	public bool paused;
+//	public bool paused;
 	public GameObject player;
 	public Texture speechbox1;
 	public Texture speechbox2;
+	[HideInInspector]
+	public string[] textureNames;
+	public Vector2 speechboxPos1;
+	public Vector2 speechboxPos2;
 
 	private int numBtns = 1;
 	private Texture[] tempTextures;
@@ -41,24 +44,29 @@ public class mainGUI : MonoBehaviour {
 		SetTextureNames();
 	}
 	void OnGUI(){
-		// setting up the background
-		GUI.skin = backgroundSkin;
 		// set GUI.matrix to adapt to different screen resolutionss
 		GUI.matrix = screenScale.AdjustOnGUI();
 
 		if (status.isDisplaying){
 			if (numBtns > 5){
-				GUI.DrawTexture(new Rect(center.offset.x + 300, center.offset.y + 450, 485, 159), speechbox2, ScaleMode.ScaleToFit, true, 0f);	
+				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), speechbox2, ScaleMode.ScaleToFit, true, 0f);	
 			}
-				GUI.DrawTexture(new Rect(center.offset.x + 220, center.offset.y + 300, 485, 180), speechbox1, ScaleMode.ScaleToFit, true, 0f);	
+				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 180), speechbox1, ScaleMode.ScaleToFit, true, 0f);	
 
 			for(int i = 0; i < numBtns; ++i){
-				if(GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), tempTextures[i], GUIStyle.none)){
+				if (i < 5){
+					GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), tempTextures[i], GUIStyle.none);
+				}
+				else {
+					GUI.Button(new Rect(center.offset.x + btStartSecond.x + ((i-6)*75) , center.offset.y + btStartSecond.y, 70, 70), tempTextures[i], GUIStyle.none);
 				}
 			}
 		}
-		if (paused)
-			GUI.Label(new Rect(100, 100, 50, 30), "Game paused");
+		if (GUI.Button(new Rect(center.offset.x + btPauseGameLocation.x , center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath("Assets/Sprites/pause.png", typeof(Texture2D)) , GUIStyle.none)){
+			//what to do when game is paused
+			//GUI.Label(new Rect(100, 100, 50, 30), "Game paused");
+			//OnApplicationPause(true);
+		}
 	}
 
 	void Update () {
@@ -92,9 +100,6 @@ public class mainGUI : MonoBehaviour {
 				playerInputs.Add ("9");
 			
 		}
-		//if(ready1){
-		//	StartCoroutine(OnDisplaying());
-		//}
 	}
 
 	private void GameLoopEntry(){
@@ -112,30 +117,23 @@ public class mainGUI : MonoBehaviour {
 			numBtns --;
 		}
 	}
+
 	private IEnumerator OnDisplaying(){
-		//ready1 = false;
 		status.isDisplaying = true;
 		yield return new WaitForSeconds(displayTime);
-		//Invoke("DisableDisplay", displayTime);
 		status.isDisplaying = false;
 		StartCoroutine(DetectInputs());
-		//ready1 = true;
 	}
-	//private void DisableDisplay(){
-	//	status.isDisplaying = false;
-	//}
+
 	private IEnumerator DetectInputs(){
 		status.isListening = true;
 		yield return new WaitForSeconds(inputTime);
-			//Invoke("DisableInputs", inputTime);
-		DisableInputs();	
+		status.isListening = false;
 		CheckWinner();
 		UpdateBtnNum();
 		StartCoroutine(OnAttack());
 	}
-	private void DisableInputs(){
-		status.isListening = false;
-	}
+
 	private void CheckWinner(){
 		if(!status.isListening){
 			if(playerInputs.Count < numBtns) {
@@ -175,8 +173,8 @@ public class mainGUI : MonoBehaviour {
 	}
 
 
-	void OnApplicationPause(bool pauseStatus) {
-		paused = pauseStatus;
-	}
+//	void OnApplicationPause(bool pauseStatus) {
+//		status.isPaused = pauseStatus;
+//	}
 
 }
