@@ -9,6 +9,7 @@ public class mainGUI : MonoBehaviour {
 	public Vector2 btStartLocation;
 	public Vector2 btStartSecond;
 	public Vector2 btPauseGameLocation;
+	public Vector2 btResumeGameLocation;
 	public GUIClasses.Location center = new GUIClasses.Location();
 	public float displayTime =0f;
 	public float inputTime = 0f; 
@@ -17,16 +18,21 @@ public class mainGUI : MonoBehaviour {
 	public GameObject player;
 	public Texture speechbox1;
 	public Texture speechbox2;
-	[HideInInspector]
-	public string[] textureNames;
 	public Vector2 speechboxPos1;
 	public Vector2 speechboxPos2;
+	[HideInInspector]
+	public string[] textureNames;
+	[HideInInspector]
+	public GameStatus.Status status = new GameStatus.Status();
+	[HideInInspector]
+	public GUIELementScale.ScreenScale screenScale = new GUIELementScale.ScreenScale(1920, 1080);
 
 	private int numBtns = 1;
 	private Texture[] tempTextures;
 	private ArrayList playerInputs = new ArrayList ();
-	private GameStatus.Status status = new GameStatus.Status();
-	private GUIELementScale.ScreenScale screenScale = new GUIELementScale.ScreenScale(1920, 1080);
+	private string speechbox1Location = "Assets/Sprites/speech_bubble2.png";
+	private string speechbox2Location = "Assets/Sprites/speech_bubble.png";
+
 
 	/////////////////////////////////////////// 
 	// Update is called once per frame
@@ -62,11 +68,14 @@ public class mainGUI : MonoBehaviour {
 				}
 			}
 		}
+
 		if (GUI.Button(new Rect(center.offset.x + btPauseGameLocation.x , center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath("Assets/Sprites/pause.png", typeof(Texture2D)) , GUIStyle.none)){
-			//what to do when game is paused
-			//GUI.Label(new Rect(100, 100, 50, 30), "Game paused");
-			//OnApplicationPause(true);
+				status.isPaused = true;
 		}
+		if (GUI.Button(new Rect(center.offset.x + btPauseGameLocation.x + 75 , center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath("Assets/Sprites/resume.png", typeof(Texture2D)) , GUIStyle.none)){
+				status.isPaused = false;
+		}
+
 	}
 
 	void Update () {
@@ -99,6 +108,22 @@ public class mainGUI : MonoBehaviour {
 			if (Input.GetKeyDown ("9"))
 				playerInputs.Add ("9");
 			
+		}
+
+		if(status.isPaused == false){
+			Time.timeScale = 1;
+		}
+		else {
+			Time.timeScale = 0;
+		}
+		if(Input.GetKeyDown(KeyCode.Q)){
+			print (status.isPaused);
+			if(status.isPaused == true){
+				status.isPaused = false;
+			}
+			else {
+				status.isPaused = true;
+			}
 		}
 	}
 
@@ -171,10 +196,5 @@ public class mainGUI : MonoBehaviour {
 				textureNames[i] = tempTextures[i].name;
 		}
 	}
-
-
-//	void OnApplicationPause(bool pauseStatus) {
-//		status.isPaused = pauseStatus;
-//	}
 
 }

@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\CharacterLogic.cs" />
      <Compile Include="Assets\Scripts\DisplayTextureFullScreen.cs" />
      <Compile Include="Assets\Scripts\GUIClasses.cs" />
+     <Compile Include="Assets\Scripts\GUIElements.cs" />
      <Compile Include="Assets\Scripts\GUIElementsScale.cs" />
      <Compile Include="Assets\Scripts\GameStatus.cs" />
      <Compile Include="Assets\Scripts\mainGUI.cs" />
