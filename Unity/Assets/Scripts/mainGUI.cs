@@ -10,9 +10,7 @@ public class mainGUI : MonoBehaviour {
 	public Vector2 btStartLocation;
 	public Vector2 btPauseGameLocation;
 	public GUIClasses.Location center = new GUIClasses.Location();
-	//public GameObject player;
 	public string[] textureNames;
-	//public bool arrayReadyToSend;
 	public float displayTime =0f;
 	public float inputTime = 0f; 
 	public float attackTime = 0f;
@@ -25,8 +23,7 @@ public class mainGUI : MonoBehaviour {
 	private Texture[] tempTextures;
 	private ArrayList playerInputs = new ArrayList ();
 	private GameStatus.Status status = new GameStatus.Status();
-	//private bool isTest = true;
-
+	private GUIELementScale.ScreenScale screenScale = new GUIELementScale.ScreenScale(1920, 1080);
 
 	/////////////////////////////////////////// 
 	// Update is called once per frame
@@ -46,6 +43,8 @@ public class mainGUI : MonoBehaviour {
 	void OnGUI(){
 		// setting up the background
 		GUI.skin = backgroundSkin;
+		// set GUI.matrix to adapt to different screen resolutionss
+		GUI.matrix = screenScale.AdjustOnGUI();
 
 		if (status.isDisplaying){
 			if (numBtns > 5){
