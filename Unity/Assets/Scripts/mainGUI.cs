@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(CharacterLogic))]
 public class mainGUI : MonoBehaviour {
 	public GUISkin backgroundSkin;
 	public Texture[] btTextures;
@@ -16,11 +17,12 @@ public class mainGUI : MonoBehaviour {
 	public float inputTime = 0f; 
 	public float attackTime = 0f;
 	public bool paused;
+	public GameObject player;
 
 	private int numBtns = 1;
 	private Texture[] tempTextures;
 	private ArrayList playerInputs = new ArrayList ();
-	public GameStatus.Status status = new GameStatus.Status();
+	private GameStatus.Status status = new GameStatus.Status();
 	//private bool isTest = true;
 
 
@@ -45,7 +47,7 @@ public class mainGUI : MonoBehaviour {
 		//aa ();
 		if (status.isDisplaying){
 			for(int i = 0; i < numBtns; ++i){
-				if(GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*50) , center.offset.y + btStartLocation.y, 50, 50), tempTextures[i])){
+				if(GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), tempTextures[i], GUIStyle.none)){
 				}
 			}
 		}
@@ -145,7 +147,7 @@ public class mainGUI : MonoBehaviour {
 	}
 	private IEnumerator OnAttack(){
 		// Attack Animations here
-
+		player.GetComponent<CharacterLogic>().whoAttack(status.isWinner);
 		yield return new WaitForSeconds(attackTime);
 		GameLoopEntry();
 	}
