@@ -20,6 +20,17 @@ public class GUIELementScale : MonoBehaviour
 			GetScreenResolutions();
 			return Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(ratio_x, ratio_y, 1));
 		}
+
+		public Rect AdjustRect(float left, float top, float width, float height){
+			return new Rect(left, top, width*ratio_x, height*ratio_y);
+		}
+		public float AdjustX(float x){
+			return  x*ratio_x;
+		}
+		public float AdjustY(float y){
+			return y*ratio_y;
+		}
+
 		private void GetScreenResolutions(){
 			screen_width = Screen.width;
 			screen_height = Screen.height;

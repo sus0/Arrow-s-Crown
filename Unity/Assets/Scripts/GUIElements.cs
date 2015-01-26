@@ -7,7 +7,7 @@ public class GUIElements : MonoBehaviour {
 	public Vector2 btPauseGameLocation;
 	
 
-	private mainGUI mainGUIScript = new mainGUI();
+	private mainGUI mainGUIScript;
 	private string pauseBtnPath = "Assets/Sprites/pause.png";
 	private string resumeBtnPath = "Assets/Sprites/resume.png";
 	private string restartBtnPath = "Assets/Sprites/restart.png";

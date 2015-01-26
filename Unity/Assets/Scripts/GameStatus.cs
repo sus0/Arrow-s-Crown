@@ -15,6 +15,9 @@ public class GameStatus : MonoBehaviour {
 		public bool isAttacking;
 		[HideInInspector]
 		public bool isPaused;
+		[HideInInspector]
+		public bool isOver_Lose;
+
 
 		public void onInitialized(){
 			isWinner = true;
@@ -22,6 +25,7 @@ public class GameStatus : MonoBehaviour {
 			isDisplaying = false;
 			isAttacking = false;
 			isPaused = false;
+			isOver_Lose = false;
 		}
 	};
 }

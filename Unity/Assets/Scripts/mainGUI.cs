@@ -29,6 +29,7 @@ public class mainGUI : MonoBehaviour {
 	private string speechbox2Path = "Assets/Sprites/speech_bubble.png";
 	private string speechbox1Path_p = "Assets/Sprites/speech_bubble_p.png";
 	private string speechbox2Path_p = "Assets/Sprites/speech_bubble2_p.png";
+	private string gameOverPath = "Assets/Sprites/game_over.png";
 	/////////////////////////////////////////// 
 	void Start(){
 		GameLoopEntry();
@@ -48,7 +49,6 @@ public class mainGUI : MonoBehaviour {
 	void OnGUI(){
 		// set GUI.matrix to adapt to different screen resolutionss
 		GUI.matrix = screenScale.AdjustOnGUI();
-
 		if (status.isDisplaying && !status.isPaused){
 			if (numBtns > 5){
 				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), (Texture2D)Resources.LoadAssetAtPath(speechbox2Path, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
@@ -64,28 +64,38 @@ public class mainGUI : MonoBehaviour {
 				}
 			}
 		}
-
-		if (status.isListening && !status.isPaused) {
+		if (status.isListening && !status.isPaused && playerInputs.Count > 0) {
 			if (numBtns > 5){
 				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), (Texture2D)Resources.LoadAssetAtPath(speechbox2Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 			}
-			GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 180), (Texture2D)Resources.LoadAssetAtPath(speechbox1Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
+			GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 175), (Texture2D)Resources.LoadAssetAtPath(speechbox1Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 			Texture2D loadedTexture;
 			string loadedPath;
 			for(int i = 0; i < playerInputs.Count; ++i){
-				loadedPath = "Assets/Sprites/" + playerInputs[i]+".png";
-				print (loadedPath);
-				loadedTexture = (Texture2D)Resources.LoadAssetAtPath(loadedPath, typeof(Texture2D));
-				if (loadedTexture) {
-					if (i < 5){
-						GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), loadedTexture, GUIStyle.none);
+				if(i < numBtns){
+					if (playerInputs[i].Equals(textureNames[i])){
+						loadedPath = "Assets/Sprites/UserInputs/" + playerInputs[i]+".png";
 					}
 					else {
-						GUI.Button(new Rect(center.offset.x + btStartSecond.x + ((i-6)*75) , center.offset.y + btStartSecond.y, 70, 70), loadedTexture, GUIStyle.none);
+						loadedPath = "Assets/Sprites/UserInputs/wrong.png";
+						status.isWinner = false;
+					}
+					loadedTexture = (Texture2D)Resources.LoadAssetAtPath(loadedPath, typeof(Texture2D));
+					if (loadedTexture) {
+						if (i < 5){
+							GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), loadedTexture, GUIStyle.none);
+						}
+						else {
+							GUI.Button(new Rect(center.offset.x + btStartSecond.x + ((i-6)*75) , center.offset.y + btStartSecond.y, 70, 70), loadedTexture, GUIStyle.none);
+						}
 					}
 				}
-			}
-		
+			}	
+		}
+
+		if(status.isOver_Lose){
+			GUI.matrix = Matrix4x4.identity;
+			GUI.DrawTexture(new Rect(0, 0, Screen.width,Screen.height), (Texture2D)Resources.LoadAssetAtPath(gameOverPath, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 		}
 
 	}
@@ -118,8 +128,11 @@ public class mainGUI : MonoBehaviour {
 			if (Input.GetKeyDown ("8"))
 				playerInputs.Add ("8");
 			if (Input.GetKeyDown ("9"))
-				playerInputs.Add ("9");
-			
+				playerInputs.Add ("9");			
+		}
+		if (player.GetComponent<CharacterLogic>().playerHealth <= 0) {
+			status.isOver_Lose = true;	
+			status.isPaused = true;
 		}
 	}
 
@@ -161,12 +174,12 @@ public class mainGUI : MonoBehaviour {
 				status.isWinner = false;
 				return;
 			}
-			for (int i = 0; i < numBtns; ++i){
-				if(playerInputs[i].ToString() != textureNames[i]){
-					status.isWinner = false;
-					return;
-				}
-			}
+		//	for (int i = 0; i < numBtns; ++i){
+		//		if(playerInputs[i].ToString() != textureNames[i]){
+		//			status.isWinner = false;
+		//			return;
+		//		}
+		//	}
 		}
 	}
 	private IEnumerator OnAttack(){

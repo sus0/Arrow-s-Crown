@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterLogic : MonoBehaviour {
 	//bool? isWin; //input value from susie
-	int playerHealth = 100;
+	public int playerHealth = 10;
 	public string player = "player's health:";
 	int enemyHealth = 100;
 	public string enemy = "enemy's health:";
