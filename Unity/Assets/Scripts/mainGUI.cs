@@ -8,16 +8,11 @@ public class mainGUI : MonoBehaviour {
 	public Texture[] btTextures;
 	public Vector2 btStartLocation;
 	public Vector2 btStartSecond;
-	public Vector2 btPauseGameLocation;
-	public Vector2 btResumeGameLocation;
 	public GUIClasses.Location center = new GUIClasses.Location();
 	public float displayTime =0f;
 	public float inputTime = 0f; 
 	public float attackTime = 0f;
-//	public bool paused;
 	public GameObject player;
-	public Texture speechbox1;
-	public Texture speechbox2;
 	public Vector2 speechboxPos1;
 	public Vector2 speechboxPos2;
 	[HideInInspector]
@@ -30,12 +25,11 @@ public class mainGUI : MonoBehaviour {
 	private int numBtns = 1;
 	private Texture[] tempTextures;
 	private ArrayList playerInputs = new ArrayList ();
-	private string speechbox1Location = "Assets/Sprites/speech_bubble2.png";
-	private string speechbox2Location = "Assets/Sprites/speech_bubble.png";
-
-
+	private string speechbox1Path = "Assets/Sprites/speech_bubble2.png";
+	private string speechbox2Path = "Assets/Sprites/speech_bubble.png";
+	private string speechbox1Path_p = "Assets/Sprites/speech_bubble_p.png";
+	private string speechbox2Path_p = "Assets/Sprites/speech_bubble2_p.png";
 	/////////////////////////////////////////// 
-	// Update is called once per frame
 	void Start(){
 		GameLoopEntry();
 	}
@@ -49,15 +43,17 @@ public class mainGUI : MonoBehaviour {
 		RandomTexturesGenerator();
 		SetTextureNames();
 	}
+
+
 	void OnGUI(){
 		// set GUI.matrix to adapt to different screen resolutionss
 		GUI.matrix = screenScale.AdjustOnGUI();
 
-		if (status.isDisplaying){
+		if (status.isDisplaying && !status.isPaused){
 			if (numBtns > 5){
-				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), speechbox2, ScaleMode.ScaleToFit, true, 0f);	
+				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), (Texture2D)Resources.LoadAssetAtPath(speechbox2Path, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 			}
-				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 180), speechbox1, ScaleMode.ScaleToFit, true, 0f);	
+			GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 180), (Texture2D)Resources.LoadAssetAtPath(speechbox1Path, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 
 			for(int i = 0; i < numBtns; ++i){
 				if (i < 5){
@@ -69,11 +65,27 @@ public class mainGUI : MonoBehaviour {
 			}
 		}
 
-		if (GUI.Button(new Rect(center.offset.x + btPauseGameLocation.x , center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath("Assets/Sprites/pause.png", typeof(Texture2D)) , GUIStyle.none)){
-				status.isPaused = true;
-		}
-		if (GUI.Button(new Rect(center.offset.x + btPauseGameLocation.x + 75 , center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath("Assets/Sprites/resume.png", typeof(Texture2D)) , GUIStyle.none)){
-				status.isPaused = false;
+		if (status.isListening && !status.isPaused) {
+			if (numBtns > 5){
+				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), (Texture2D)Resources.LoadAssetAtPath(speechbox2Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
+			}
+			GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 180), (Texture2D)Resources.LoadAssetAtPath(speechbox1Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
+			Texture2D loadedTexture;
+			string loadedPath;
+			for(int i = 0; i < playerInputs.Count; ++i){
+				loadedPath = "Assets/Sprites/" + playerInputs[i]+".png";
+				print (loadedPath);
+				loadedTexture = (Texture2D)Resources.LoadAssetAtPath(loadedPath, typeof(Texture2D));
+				if (loadedTexture) {
+					if (i < 5){
+						GUI.Button(new Rect(center.offset.x + btStartLocation.x + (i*75) , center.offset.y + btStartLocation.y, 70, 70), loadedTexture, GUIStyle.none);
+					}
+					else {
+						GUI.Button(new Rect(center.offset.x + btStartSecond.x + ((i-6)*75) , center.offset.y + btStartSecond.y, 70, 70), loadedTexture, GUIStyle.none);
+					}
+				}
+			}
+		
 		}
 
 	}
@@ -108,22 +120,6 @@ public class mainGUI : MonoBehaviour {
 			if (Input.GetKeyDown ("9"))
 				playerInputs.Add ("9");
 			
-		}
-
-		if(status.isPaused == false){
-			Time.timeScale = 1;
-		}
-		else {
-			Time.timeScale = 0;
-		}
-		if(Input.GetKeyDown(KeyCode.Q)){
-			print (status.isPaused);
-			if(status.isPaused == true){
-				status.isPaused = false;
-			}
-			else {
-				status.isPaused = true;
-			}
 		}
 	}
 
@@ -179,8 +175,7 @@ public class mainGUI : MonoBehaviour {
 		yield return new WaitForSeconds(attackTime);
 		GameLoopEntry();
 	}
-
-
+	
 	//generate random array and push into textureNames
 	private void RandomTexturesGenerator(){
 		tempTextures = new Texture[numBtns];
