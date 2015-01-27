@@ -64,7 +64,7 @@ public class mainGUI : MonoBehaviour {
 				}
 			}
 		}
-		if (status.isListening && !status.isPaused && playerInputs.Count > 0) {
+		if (status.isListening && playerInputs.Count > 0) {
 			if (numBtns > 5){
 				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), (Texture2D)Resources.LoadAssetAtPath(speechbox2Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 			}
