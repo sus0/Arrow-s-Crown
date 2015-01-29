@@ -3,21 +3,27 @@ using System.Collections;
 
 public class CharacterLogic : MonoBehaviour {
 	//bool? isWin; //input value from susie
-	public int playerHealth = 10;
+	public int playerHealth_initial = 100;
+	public int enemyHealth_initial = 100;
 	public string player = "player's health:";
-	int enemyHealth = 100;
 	public string enemy = "enemy's health:";
 	bool moveFinish = false; // output value to susie
 	protected Animator animPlayer;
 	public GameObject monster;
 	protected Animator animMonster;
-	
+
+	[HideInInspector]
+	public int playerHealth;
+	[HideInInspector]
+	public int enemyHealth;
 	
 	
 	enum atkmethod { normalAttack, Magic };
 	
 	// Use this for initialization
 	void Start () {
+		playerHealth = playerHealth_initial;
+		enemyHealth = enemyHealth_initial;
 		monster = GameObject.Find ("Monster");
 		animPlayer = GetComponent <Animator> ();
 		animMonster = monster.GetComponent<Animator> ();

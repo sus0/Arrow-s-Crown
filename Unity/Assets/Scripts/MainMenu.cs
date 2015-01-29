@@ -2,7 +2,6 @@
 using System.Collections;
 [ExecuteInEditMode]
 public class MainMenu : MonoBehaviour {
-
 	public GUISkin mainMenuSkin;
 	public Vector2 btStartLocation;
 	public Vector2 btExitLocation;
@@ -15,13 +14,12 @@ public class MainMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void OnGUI () {
-		GUI.skin = mainMenuSkin;
 		GUI.matrix = screenScale.AdjustOnGUI();
 		if(GUI.Button(new Rect(center.offset.x + btStartLocation.x, center.offset.y + btStartLocation.y, 437, 325), (Texture2D)Resources.LoadAssetAtPath(btPlay, typeof(Texture2D)),GUIStyle.none)){
-			//Application.LoadLevel("MainScene");
+			Application.LoadLevel("MainScene");
 		}
-		if(GUI.Button(new Rect(center.offset.x + btCreditLocation.x, center.offset.y + btCreditLocation.y, 300, 200), (Texture2D)Resources.LoadAssetAtPath(btCredit, typeof(Texture2D)),GUIStyle.none)){
-			//Application.LoadLevel("MainScene");
+		if(GUI.Button(new Rect(center.offset.x + btCreditLocation.x, center.offset.y + btCreditLocation.y, 300, 270), (Texture2D)Resources.LoadAssetAtPath(btCredit, typeof(Texture2D)),GUIStyle.none)){
+			Application.LoadLevel("MainScene");
 		}
 		//if(GUI.Button(new Rect(center.offset.x + btExitLocation.x, center.offset.y + btExitLocation.y, 437, 325), (Texture2D)Resources.LoadAssetAtPath(btExit, typeof(Texture2D)), GUIStyle.none)){
 		//	Application.Quit();
