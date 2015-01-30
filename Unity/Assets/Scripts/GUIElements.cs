@@ -40,18 +40,23 @@ public class GUIElements : MonoBehaviour {
 				mainGUIScript.status.isPaused = true;
 			}
 		}
-			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 75 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(resumeBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
+		else{
+			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(resumeBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
 				mainGUIScript.status.isPaused = false;
 			}
-			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 150 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(restartBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
+		}
+			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 75 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(restartBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
 				Application.LoadLevel(2);
 				//mainGUIScript.GameLoopEntry();
 			}
-
-
-
+		if (mainGUIScript.status.isOver_Lose){
+			Application.LoadLevel(3);
+			//mainGUIScript.GameLoopEntry();
+		}
+		
+		
 	}
-
+	
 	public void PauseButtonOnClick(){
 		mainGUIScript.status.isPaused = true;
 	}
