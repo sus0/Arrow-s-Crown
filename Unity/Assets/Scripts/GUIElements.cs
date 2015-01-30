@@ -5,7 +5,7 @@ using System.Collections;
 public class GUIElements : MonoBehaviour {
 
 	public Vector2 btPauseGameLocation;
-	
+	public GUISkin interactiveBtn;
 
 	private mainGUI mainGUIScript;
 	private string pauseBtnPath = "Assets/Sprites/pause.png";
@@ -35,16 +35,28 @@ public class GUIElements : MonoBehaviour {
 
 	void OnGUI(){
 		GUI.matrix =mainGUIScript.screenScale.AdjustOnGUI();
-		if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(pauseBtnPath, typeof(Texture2D)) , GUIStyle.none)){
-			mainGUIScript.status.isPaused = true;
+		if(!mainGUIScript.status.isPaused){
+			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(pauseBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
+				mainGUIScript.status.isPaused = true;
+			}
 		}
-		if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 75 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(resumeBtnPath, typeof(Texture2D)) , GUIStyle.none)){
-			mainGUIScript.status.isPaused = false;
-		}
-		if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 150 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(restartBtnPath, typeof(Texture2D)) , GUIStyle.none)){
-			Application.LoadLevel(0);
-		}
+			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 75 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(resumeBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
+				mainGUIScript.status.isPaused = false;
+			}
+			if (GUI.Button(new Rect(mainGUIScript.center.offset.x + btPauseGameLocation.x + 150 , mainGUIScript.center.offset.y + btPauseGameLocation.y, 70, 70), (Texture2D)Resources.LoadAssetAtPath(restartBtnPath, typeof(Texture2D)) , interactiveBtn.button)){
+				Application.LoadLevel(2);
+				//mainGUIScript.GameLoopEntry();
+			}
 
 
+
+	}
+
+	public void PauseButtonOnClick(){
+		mainGUIScript.status.isPaused = true;
+	}
+
+	public void ResumeButtonOnClick(){
+		mainGUIScript.status.isPaused = true;
 	}
 }

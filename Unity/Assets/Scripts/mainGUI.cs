@@ -21,6 +21,9 @@ public class mainGUI : MonoBehaviour {
 	public GameStatus.Status status = new GameStatus.Status();
 	[HideInInspector]
 	public GUIELementScale.ScreenScale screenScale = new GUIELementScale.ScreenScale(1920, 1080);
+	public float level_easy =(float)5/4;
+	public float level_medium = 1f;
+	public float level_hard =(float)3/4;
 
 	private int numBtns = 1;
 	private Texture[] tempTextures;
@@ -65,7 +68,7 @@ public class mainGUI : MonoBehaviour {
 			}
 		}
 		if (status.isListening && playerInputs.Count > 0) {
-			if (numBtns > 5){
+			if (playerInputs.Count > 5){
 				GUI.DrawTexture(new Rect(center.offset.x + speechboxPos2.x, center.offset.y + speechboxPos2.y, 485, 155), (Texture2D)Resources.LoadAssetAtPath(speechbox2Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
 			}
 			GUI.DrawTexture(new Rect(center.offset.x + speechboxPos1.x, center.offset.y + speechboxPos1.y, 485, 175), (Texture2D)Resources.LoadAssetAtPath(speechbox1Path_p, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
@@ -134,9 +137,12 @@ public class mainGUI : MonoBehaviour {
 			status.isOver_Lose = true;	
 			status.isPaused = true;
 		}
+
+		displayTime = (float)Math.Sqrt((double)numBtns);
+		inputTime = displayTime*level_medium;
 	}
 
-	private void GameLoopEntry(){
+	public void GameLoopEntry(){
 		InitializeMainGUI();
 		StartCoroutine(OnDisplaying());
 		//CheckWinner();
@@ -155,6 +161,7 @@ public class mainGUI : MonoBehaviour {
 	private IEnumerator OnDisplaying(){
 		status.isDisplaying = true;
 		yield return new WaitForSeconds(displayTime);
+		//print ("display time:" + displayTime + "for " + numBtns + "buttons in total");
 		status.isDisplaying = false;
 		StartCoroutine(DetectInputs());
 	}
@@ -162,6 +169,7 @@ public class mainGUI : MonoBehaviour {
 	private IEnumerator DetectInputs(){
 		status.isListening = true;
 		yield return new WaitForSeconds(inputTime);
+		//print ("input time:" + inputTime + "for " + numBtns + "buttons in total");
 		status.isListening = false;
 		CheckWinner();
 		UpdateBtnNum();
