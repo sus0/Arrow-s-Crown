@@ -95,12 +95,6 @@ public class mainGUI : MonoBehaviour {
 				}
 			}	
 		}
-
-		if(status.isOver_Lose){
-			GUI.matrix = Matrix4x4.identity;
-			GUI.DrawTexture(new Rect(0, 0, Screen.width,Screen.height), (Texture2D)Resources.LoadAssetAtPath(gameOverPath, typeof(Texture2D)), ScaleMode.ScaleToFit, true, 0f);	
-		}
-
 	}
 
 	void Update () {
